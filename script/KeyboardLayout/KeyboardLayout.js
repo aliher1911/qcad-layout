@@ -8,6 +8,8 @@ function KeyboardLayout(guiAction) {
     EAction.call(this, guiAction);
 }
 
+var DEBUG = false;
+
 KeyboardLayout.prototype = new EAction();
 
 // attaching action to menu/toolbars
@@ -55,8 +57,6 @@ KeyboardLayout.prototype.beginEvent = function() {
     EAction.prototype.beginEvent.call(this);
     // outputs to stdout (normally invisible in gui app)
     qDebug("KeyboardLayout.prototype.beginEvent was called.");
-    // outputs to app console
-    EAction.handleUserMessage("Something is brewing");
     
     var doc = this.getDocument();
 
@@ -70,10 +70,10 @@ KeyboardLayout.prototype.beginEvent = function() {
     var blockIds = doc.queryAllBlocks();
     for (var i=0; i < blockIds.length; i++) {
         var block = doc.queryBlock(blockIds[i]);
-        EAction.handleUserMessage("Block: " + block.getName());
+        if (DEBUG) EAction.handleUserMessage("Block: " + block.getName());
         var desc = extractComponents(block.getName());
         if (desc) {
-            EAction.handleUserMessage("Name matching to size " + desc.size + " plane " + desc.plane);
+            if (DEBUG) EAction.handleUserMessage("Name matching to size " + desc.size + " plane " + desc.plane);
             if (!planeTypes.hasOwnProperty(desc.plane)) {
                 planeTypes[desc.plane] = {};
             }
@@ -81,11 +81,13 @@ KeyboardLayout.prototype.beginEvent = function() {
             blockTypes[blockIds[i]] = desc;
         }
     }
-    // Debug info about discovered blocks
-    for (var plane in planeTypes) {
-        EAction.handleUserMessage("Found plane: " + plane);
-        for(var blockSize in planeTypes[plane]) {
-            EAction.handleUserMessage("Size: " + blockSize + " id: " + planeTypes[plane][blockSize]);
+    if (DEBUG) {
+        // Debug info about discovered blocks
+        for (var plane in planeTypes) {
+            EAction.handleUserMessage("Found plane: " + plane);
+            for(var blockSize in planeTypes[plane]) {
+                EAction.handleUserMessage("Size: " + blockSize + " id: " + planeTypes[plane][blockSize]);
+            }
         }
     }
 
@@ -95,15 +97,17 @@ KeyboardLayout.prototype.beginEvent = function() {
     var templateEntities = [];
     // generated blocks from previous runs
     var oldEntities = [];
+    // report on number of caps needed
+    var capList = {};
     // for each block of drawing, remove it if it is on layer in map and not layout
     var allBlockRefs = doc.queryAllBlockReferences();
     for (var i=0; i < allBlockRefs.length; i++) {
         var ref = allBlockRefs[i];
-        EAction.handleUserMessage("Found blockref: " + ref);
+        if (DEBUG) EAction.handleUserMessage("Found blockref: " + ref);
         var entity = doc.queryEntity(ref);
         var blockId = entity.getReferencedBlockId();
         if (!blockTypes.hasOwnProperty(blockId)) {
-            EAction.handleUserMessage("Skipping block on unknown type.");
+            if (DEBUG) EAction.handleUserMessage("Skipping block on unknown type.");
             continue;
         }
         var desc = blockTypes[blockId];
@@ -111,6 +115,10 @@ KeyboardLayout.prototype.beginEvent = function() {
         if (desc.plane == "Layout") {
             // register template with sublayer included
             templateEntities.push({entity: entity, subplane:templateSubplane});
+            if (!capList.hasOwnProperty(desc.size)) {
+                capList[desc.size] = 0;
+            }
+            capList[desc.size] += entity.getData().getRowCount() * entity.getData().getColumnCount();
         } else {
             // remove block
             oldEntities.push(entity);
@@ -136,13 +144,13 @@ KeyboardLayout.prototype.beginEvent = function() {
         var layerId = layers[i];
         var layer = doc.queryLayerDirect(layerId);
         var layerPlane = getSubplane(layer.getName());
-        EAction.handleUserMessage("Checking for blocks for layer " + layer.getName() + "(" + layerId + ")");
+        if (DEBUG) EAction.handleUserMessage("Checking for blocks for layer " + layer.getName() + "(" + layerId + ")");
         if (!planeTypes.hasOwnProperty(layerPlane[0])) {
-            EAction.handleUserMessage("No generatable blocks");
+            if (DEBUG) EAction.handleUserMessage("No generatable blocks");
             continue;
         }
         if (layerPlane[0] == "Layout") {
-            EAction.handleUserMessage("Ignoring layout layer.");
+            if (DEBUG) EAction.handleUserMessage("Ignoring layout layer.");
             continue;
         }
         // layers have 2 components in name layer_sublayer
@@ -151,18 +159,18 @@ KeyboardLayout.prototype.beginEvent = function() {
         for(var j=0; j<templateEntities.length; j++) {
             var subPlane = templateEntities[j].subplane;
             if (subPlane!=layerPlane[1]) {
-                EAction.handleUserMessage("Template subplane " + subPlane + " != " + layerPlane[1]);
+                if (DEBUG) EAction.handleUserMessage("Not inserting block template subplane " + subPlane + " != " + layerPlane[1]);
                 continue;
             }
             var template = templateEntities[j].entity;
             var templateBlockId = template.getReferencedBlockId();
             var templateDesc = blockTypes[templateBlockId];
             if (!layerBlocks.hasOwnProperty(templateDesc.size)) {
-                EAction.handleUserMessage("No block of size " + templateDesc.size + "in " + layerPlane[1]);
+                if (DEBUG) EAction.handleUserMessage("No block of size " + templateDesc.size + "in " + layerPlane[1]);
                 continue;
             }
             var blockId = layerBlocks[templateDesc.size];
-            EAction.handleUserMessage("Insert block " + blockId + " to " + subPlane);
+            if (DEBUG) EAction.handleUserMessage("Insert block " + blockId + " to " + subPlane);
             var templateBlockData = template.getData();
             var blockData = new RBlockReferenceData(
                 blockId,
@@ -185,6 +193,13 @@ KeyboardLayout.prototype.beginEvent = function() {
     di.clearPreview();
     di.repaintViews();
     
+    EAction.handleUserMessage("Number of caps required");
+    for(var cap in capList) {
+        if (capList.hasOwnProperty(cap)) {
+            EAction.handleUserMessage("Cap " + cap + " : " + capList[cap]);
+        }
+    }
+
     this.terminate();
 };
 
