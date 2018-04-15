@@ -1757,15 +1757,15 @@ AcDbSymbolTableRecord
 100
 AcDbLayerTableRecord
   2
-Board Template
+@SheetBoundary
  70
-0
+1
  62
-7
+3
 420
-0
+65280
   6
-ACAD_ISO02W100
+Continuous
 370
 25
 390
@@ -1803,7 +1803,7 @@ AcDbLayerTableRecord
   2
 Base
  70
-0
+1
  62
 7
 420
@@ -1823,15 +1823,15 @@ AcDbSymbolTableRecord
 100
 AcDbLayerTableRecord
   2
-TopCover
+@Board Template
  70
-0
+1
  62
 7
 420
 0
   6
-Continuous
+ACAD_ISO02W100
 370
 25
 390
@@ -1845,13 +1845,13 @@ AcDbSymbolTableRecord
 100
 AcDbLayerTableRecord
   2
-SheetBoundary
+TopCover
  70
-0
+1
  62
-3
+7
 420
-65280
+0
   6
 Continuous
 370
@@ -1891,7 +1891,7 @@ AcDbLayerTableRecord
   2
 Layout
  70
-0
+1
  62
 7
 420
@@ -1913,7 +1913,7 @@ AcDbLayerTableRecord
   2
 Well
  70
-0
+1
  62
 7
 420
@@ -1933,9 +1933,9 @@ AcDbSymbolTableRecord
 100
 AcDbLayerTableRecord
   2
-Outline Template
+Plate
  70
-0
+1
  62
 7
 420
@@ -1943,7 +1943,7 @@ Outline Template
   6
 Continuous
 370
-25
+0
 390
 F
   0
@@ -1955,9 +1955,9 @@ AcDbSymbolTableRecord
 100
 AcDbLayerTableRecord
   2
-Plate
+@Outline Template
  70
-0
+1
  62
 7
 420
@@ -1965,7 +1965,7 @@ Plate
   6
 Continuous
 370
-0
+25
 390
 F
   0
@@ -7203,7 +7203,7 @@ INSERT
 100
 AcDbEntity
   8
-Board Template
+@Board Template
  62
 256
 370
@@ -7267,7 +7267,7 @@ INSERT
 100
 AcDbEntity
   8
-Board Template
+@Board Template
  62
 256
 370
@@ -7295,7 +7295,7 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-SheetBoundary
+@SheetBoundary
  62
 256
 370
@@ -8023,7 +8023,7 @@ LINE
 100
 AcDbEntity
   8
-SheetBoundary
+@SheetBoundary
  62
 256
 370
@@ -8053,7 +8053,7 @@ LINE
 100
 AcDbEntity
   8
-SheetBoundary
+@SheetBoundary
  62
 256
 370
@@ -8623,7 +8623,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -8803,7 +8803,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -8983,7 +8983,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -9163,7 +9163,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -9343,7 +9343,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -9523,7 +9523,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -9793,7 +9793,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -9973,7 +9973,7 @@ LINE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10153,7 +10153,7 @@ CIRCLE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10309,7 +10309,7 @@ CIRCLE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10465,7 +10465,7 @@ CIRCLE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10621,7 +10621,7 @@ CIRCLE
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10777,7 +10777,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -10969,7 +10969,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -11161,7 +11161,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -11353,7 +11353,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -11545,7 +11545,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -11737,7 +11737,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -11929,7 +11929,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -12121,7 +12121,7 @@ ARC
 100
 AcDbEntity
   8
-Outline Template
+@Outline Template
  62
 256
 370
@@ -14281,7 +14281,7 @@ AcDbXrecord
 280
 1
  40
-261.4090154867254228
+181.5340385324482213
   0
 XRECORD
   5
@@ -14293,7 +14293,7 @@ AcDbXrecord
 280
 1
  40
-549.9453816371676567
+381.9065150258108474
   0
 ENDSEC
   0
